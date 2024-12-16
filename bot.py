@@ -76,13 +76,18 @@ def look(message):
     cur.execute("SELECT * FROM users")
     users = cur.fetchall()
     info = ""
-    for el in users:
-        info += f"Линия: {el[1]}, павильон: {el[2]}, ссылка: {el[3]}\n"
+    if users:
+        for el in users:
+            info += f"Линия: {el[1]}, павильон: {el[2]}, ссылка: {el[3]}\n"
 
-    cur.close()
-    conn.close()
+        cur.close()
+        conn.close()
 
-    bot.send_message(message.chat.id, info)
+        bot.send_message(message.chat.id, info)
+    else:
+        bot.send_message(message.chat.id, "Павильонов нет.")
+        cur.close()
+        conn.close()
 
 
 @bot.callback_query_handler(func=lambda call: True)
